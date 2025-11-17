@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="friendly-tech">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beginner’s Guide to A/B Testing (Non-Tech)</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="A friendly, clean, modern beginner's guide to A/B testing for non-technical folks.">
+
+  <!-- For PNG export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">A/B</div>
+        <div class="brand-text">
+          <h1 class="site-title">Beginner’s Guide to A/B Testing</h1>
+          <p class="site-subtitle">For Non-Tech People</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <label class="theme-switch">
+          <span class="theme-label" id="themeLabel">Theme:</span>
+          <select aria-labelledby="themeLabel" id="themeSelect">
+            <option value="friendly-tech" selected>Light</option>
+            <option value="friendly-dark">Dark</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h2>Run confident experiments—no PhD required.</h2>
+          <p>Learn what A/B testing is, when to use it, how to design a good test, and how to read results without the “scary data” vibe.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#planner">Plan a Test</a>
+            <a class="btn btn-outline" href="#glossary">Jump to Glossary</a>
+          </div>
+        </div>
+        <div class="hero-card" role="img" aria-label="Illustrative card showing A and B versions being compared">
+          <div class="version-pill">Version A</div>
+          <div class="vs">VS</div>
+          <div class="version-pill alt">Version B</div>
+          <div class="sparkles" aria-hidden="true">✦ ✧ ✦</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid container">
+      <article class="card">
+        <h3>What is A/B Testing?</h3>
+        <p>A/B testing compares two versions of something (A vs. B) to see which performs better. You split your audience randomly, show each group a version, and measure a clear outcome (like clicks or purchases).</p>
+        <ul class="checklist">
+          <li>One clear goal metric</li>
+          <li>Random, fair split</li>
+          <li>Run long enough</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>When should I use it?</h3>
+        <p>Use A/B tests for changes that could affect behavior: headlines, button labels, layouts, pricing messages, or onboarding steps.</p>
+        <p class="tip">Tip: If the change is tiny or the audience is tiny, A/B might not be worth the time—try user interviews instead.</p>
+      </article>
+
+      <article class="card">
+        <h3>What makes a good test?</h3>
+        <ul class="steps">
+          <li><strong>Define success:</strong> e.g., “increase checkout completion.”</li>
+          <li><strong>Form a hypothesis:</strong> “Shorter form will raise completion.”</li>
+          <li><strong>Change one big thing:</strong> keep versions focused.</li>
+          <li><strong>Decide test length:</strong> don’t end early because of a blip.</li>
+          <li><strong>Keep traffic fair:</strong> random split, consistent targeting.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="container wide" id="planner" aria-labelledby="plannerHeading">
+      <div class="section-header">
+        <h2 id="plannerHeading">Quick Lift & Significance</h2>
+        <p>Enter counts to see conversion rates, lift, significance, and SRM. (All four fields are required.)</p>
+      </div>
+
+      <div class="calc">
+        <form class="calc-form" id="liftForm" action="javascript:void(0)" autocomplete="off">
+          <fieldset>
+            <legend>Version A (Control)</legend>
+            <label>Visitors
+              <input type="number" inputmode="numeric" min="0" step="1" id="aVisitors" placeholder="e.g., 5000" required>
+            </label>
+            <label>Conversions
+              <input type="number" inputmode="numeric" min="0" step="1" id="aConversions" placeholder="e.g., 250" required>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Version B (Variant)</legend>
+            <label>Visitors
+              <input type="number" inputmode="numeric" min="0" step="1" id="bVisitors" placeholder="e.g., 5200" required>
+            </label>
+            <label>Conversions
+              <input type="number" inputmode="numeric" min="0" step="1" id="bConversions" placeholder="e.g., 300" required>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Settings</legend>
+            <label>Hypothesis
+              <select id="hypothesis">
+                <option value="two" selected>Two-sided</option>
+                <option value="one">One-sided (B &gt; A)</option>
+              </select>
+            </label>
+            <label>Confidence level
+              <select id="alpha">
+                <option value="0.10">90%</option>
+                <option value="0.05" selected>95%</option>
+                <option value="0.01">99%</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <div class="actions">
+            <button type="button" class="btn btn-primary" id="calcBtn">Calculate</button>
+            <button type="reset" class="btn btn-ghost" id="resetBtn">Reset</button>
+          </div>
+        </form>
+
+        <div class="calc-results" id="liftResults" hidden>
+          <div class="result-card">
+            <h4>Conversion Rates & Lift</h4>
+            <p><strong>A:</strong> <span id="aRate">—</span> • <strong>B:</strong> <span id="bRate">—</span></p>
+            <p><strong>Absolute lift:</strong> <span id="absLift">—</span> • <strong>Relative lift:</strong> <span id="relLift">—</span></p>
+          </div>
+
+          <div class="result-card">
+            <h4>Significance</h4>
+            <p><strong>Z-score:</strong> <span id="zScore">—</span></p>
+            <p><strong>p-value:</strong> <span id="pValue">—</span></p>
+            <p><strong>Result:</strong> <span id="sigResult">—</span></p>
+            <p class="muted small">z uses unpooled SE: √(SE<sub>A</sub>² + SE<sub>B</sub>²).</p>
+          </div>
+
+          <div class="result-card" id="srmCard" hidden>
+            <h4>SRM Check (50/50 split)</h4>
+            <p><strong>SRM p-value:</strong> <span id="srmP">—</span></p>
+            <p class="warn"><strong>Potential SRM:</strong> traffic allocation may be biased.</p>
+          </div>
+
+          <div class="inline-actions">
+            <button type="button" class="btn btn-outline" id="dlCsvBtn">Download CSV</button>
+            <button type="button" class="btn btn-ghost" id="linkBtn">Copy shareable link</button>
+          </div>
+
+          <div class="inline-actions">
+            <button type="button" class="btn btn-outline" id="exportPdfBtn">Export PDF</button>
+            <button type="button" class="btn btn-outline" id="exportPngBtn">Export PNG</button>
+            <button type="button" class="btn btn-ghost" id="importCsvBtn">Import CSV</button>
+            <input type="file" id="importCsvInput" accept=".csv" style="display:none;">
+          </div>
+
+          <div class="result-note">
+            <p><strong>Note:</strong> Frequentist test; for Bayesian view use a Bayesian calculator.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sample Size Section -->
+    <section class="container wide" id="sample" aria-labelledby="sampleHeading">
+      <div class="section-header">
+        <h2 id="sampleHeading">Sample Size (per Variant)</h2>
+        <p>Estimate the minimum sample size needed <em>per variant</em> to detect a target lift at your chosen significance (α) and power (1−β).</p>
+      </div>
+
+      <div class="calc">
+        <form class="calc-form" id="sampleForm" action="javascript:void(0)">
+          <fieldset>
+            <legend>Inputs</legend>
+
+            <label>Baseline conversion rate (%)
+              <input type="number" id="ssBaseline" inputmode="decimal" min="0" max="100" step="0.01" placeholder="e.g., 5" required>
+            </label>
+
+            <label>Target relative lift (% to detect)
+              <input type="number" id="ssLift" inputmode="decimal" min="0.1" step="0.1" placeholder="e.g., 10">
+            </label>
+
+            <label>Lift mode
+              <select id="ssMode">
+                <option value="relative" selected>Relative (%)</option>
+                <option value="absolute">Absolute (pp)</option>
+              </select>
+            </label>
+
+            <label id="ssAbsWrap" style="display:none;">Absolute lift (percentage points)
+              <input type="number" id="ssAbs" inputmode="decimal" min="0.01" step="0.01" placeholder="e.g., 1.0">
+            </label>
+
+            <label>Significance level (α)
+              <select id="ssAlpha">
+                <option value="0.05" selected>0.05 (two-sided)</option>
+                <option value="0.01">0.01 (two-sided)</option>
+              </select>
+            </label>
+
+            <label>Power (1−β)
+              <select id="ssPower">
+                <option value="0.8" selected>80%</option>
+                <option value="0.9">90%</option>
+                <option value="0.95">95%</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="sampleBtn">Compute Sample Size</button>
+            <button type="reset" class="btn btn-ghost" id="sampleReset">Reset</button>
+          </div>
+        </form>
+
+        <div class="calc-results" id="sampleResults" hidden>
+          <div class="result-card">
+            <h4>Required Sample Size</h4>
+            <p><strong>Per Variant:</strong> <span id="ssPerVariant">—</span></p>
+            <p><strong>Total (A + B):</strong> <span id="ssTotal">—</span></p>
+          </div>
+          <div class="result-card">
+            <h4>Assumptions</h4>
+            <p><strong>Baseline (p₁):</strong> <span id="ssP1">—</span></p>
+            <p><strong>Detectable Variant (p₂):</strong> <span id="ssP2">—</span></p>
+            <p><strong>Difference (Δ):</strong> <span id="ssDelta">—</span></p>
+          </div>
+          <div class="result-note">
+            <p>Two-proportion sizing with equal allocation; lift interpreted as relative (p₂ = p₁ × (1 + lift%)) or absolute (p₂ = p₁ + lift pp).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="dosdonts" aria-labelledby="ddHeading">
+      <h2 id="ddHeading">Do’s & Don’ts</h2>
+      <div class="do-dont">
+        <div class="do">
+          <h4>Do</h4>
+          <ul>
+            <li>Pick one primary metric.</li>
+            <li>Run the test for full weeks (avoid weekday/weekend bias).</li>
+            <li>Document your hypothesis and version changes.</li>
+            <li>Share results—even if B didn’t “win”.</li>
+          </ul>
+        </div>
+        <div class="dont">
+          <h4>Don’t</h4>
+          <ul>
+            <li>Stop early because numbers look good for a day.</li>
+            <li>Test multiple big changes at once.</li>
+            <li>Change traffic targeting mid-test.</li>
+            <li>Over-optimize for a vanity metric.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="glossary" aria-labelledby="glossHeading">
+      <h2 id="glossHeading">Glossary (Tap to expand)</h2>
+      <div class="accordion" role="tablist">
+        <details class="accordion-item">
+          <summary role="button" aria-expanded="false"><span>Conversion Rate (CR)</span></summary>
+          <div class="acc-body">The percentage of visitors who complete the action you care about (e.g., purchase, sign-up).</div>
+        </details>
+        <details class="accordion-item">
+          <summary role="button" aria-expanded="false"><span>Lift</span></summary>
+          <div class="acc-body">How much better (or worse) B did vs. A. Report as absolute points and relative % change.</div>
+        </details>
+        <details class="accordion-item">
+          <summary role="button" aria-expanded="false"><span>Variant</span></summary>
+          <div class="acc-body">The new version you’re testing against the current version (control).</div>
+        </details>
+        <details class="accordion-item">
+          <summary role="button" aria-expanded="false"><span>Primary Metric</span></summary>
+          <div class="acc-body">The one metric that decides the test outcome. Keep it focused.</div>
+        </details>
+        <details class="accordion-item">
+          <summary role="button" aria-expanded="false"><span>Run Time</span></summary>
+          <div class="acc-body">How long the test should run to capture typical behavior (full weeks help reduce bias).</div>
+        </details>
+      </div>
+    </section>
+
+    <section class="container" id="checklist" aria-labelledby="checkHeading">
+      <h2 id="checkHeading">Pre-Launch Checklist</h2>
+      <ol class="preflight">
+        <li>Hypothesis is clear and tied to a metric.</li>
+        <li>Tracking verified for all key events.</li>
+        <li>Traffic split and audience rules locked.</li>
+        <li>Test length agreed (don’t peek early).</li>
+        <li>Success criteria defined (what counts as “ship it”).</li>
+        <li>Comms owner assigned for sharing results.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Made for non-tech marketers & PMs. Be curious, be kind, and test responsibly.</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

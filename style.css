@@ -292,6 +292,15 @@ html.theme-dark .btn-ghost {
 .result-card h4 { margin: 0 0 .5rem; }
 .result-note { font-size: .95rem; color: var(--muted); }
 .warn { color: #b45309; }
+.sig-pass {
+  color: #22c55e;  /* green-500 */
+  font-weight: 600;
+}
+
+.sig-fail {
+  color: #b91c1c;  /* red-700 */
+  font-weight: 600;
+}
 .muted.small { color: var(--muted); font-size: .9rem; }
 
 .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }

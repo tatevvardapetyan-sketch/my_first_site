@@ -170,9 +170,9 @@ function computeLift() {
 
   zScoreEl.textContent = z.toFixed(3);
   pValueEl.textContent = p.toFixed(4);
-  sigResultEl.textContent = (p < alpha)
-  ? `Significant at ${(1 - alpha) * 100}%`
-  : `Not significant at ${(1 - alpha) * 100}%`;
+  sigResultEl.innerHTML = (p < alpha)
+  ? `<span class="sig-pass">Significant at ${(100 * (1 - alpha)).toFixed(0)}%</span>`
+  : `<span class="sig-fail">Not significant at ${(100 * (1 - alpha)).toFixed(0)}%</span>`;
   
   // ==== SRM check for 50/50 ====
   const nTot = aV + bV;
